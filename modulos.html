@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos Industriales CBN - UMSA | Análisis y Diseño de Sistemas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js para Gráficos Interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cbn: {
+                            navy: '#0C2340',
+                            blue: '#1A3B66',
+                            gold: '#D4AF37',
+                            red: '#C8102E',
+                            amber: '#FFBF00',
+                            lightBg: '#F4F7FB',
+                            cardBg: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glass': '0 20px 40px -15px rgba(12, 35, 64, 0.25)',
+                        'card-hover': '0 25px 50px -12px rgba(12, 35, 64, 0.2)',
+                        'premium': '0 10px 25px -5px rgba(212, 175, 55, 0.2)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-cbn-lightBg font-sans text-gray-800 antialiased min-h-screen flex flex-col selection:bg-cbn-gold selection:text-cbn-navy">
+
+    <!-- HEADER / NAVIGATION BAR (IDÉNTICO A INDEX.HTML) -->
+    <header
+        class="bg-gradient-to-r from-cbn-navy via-cbn-blue to-cbn-navy text-white shadow-2xl sticky top-0 z-50 border-b-4 border-cbn-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 cursor-pointer group">
+                <div
+                    class="w-12 h-12 bg-gradient-to-br from-cbn-gold to-amber-500 rounded-2xl flex items-center justify-center font-black text-cbn-navy text-2xl shadow-lg border-2 border-white/80 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-beer-mug-empty"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-black tracking-wide text-white uppercase leading-tight">
+                        Cervecería Boliviana Nacional S.A.</h1>
+                    <p class="text-[10px] sm:text-[11px] text-cbn-gold font-bold tracking-wider uppercase">UMSA •
+                        Facultad de Ciencias Puras y Naturales • Informática</p>
+                </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center space-x-2">
+                <a href="index.html"
+                    class="px-4 py-2 rounded-xl hover:bg-white/10 hover:text-cbn-gold transition-all font-semibold text-xs uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left text-cbn-gold"></i> Volver al Inicio
+                </a>
+                <a href="#arquitectura-graficos"
+                    class="px-4 py-2 rounded-xl hover:bg-white/10 hover:text-cbn-gold transition-all font-semibold text-xs uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-cbn-gold"></i> KPIs & Gráficos
+                </a>
+                <a href="#catalogo-modulos"
+                    class="px-4 py-2 rounded-xl bg-cbn-gold text-cbn-navy transition-all font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-industry"></i> 6 Módulos CBN
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section
+        class="bg-gradient-to-br from-cbn-navy via-[#122B4E] to-[#1A3B66] text-white py-12 px-4 sm:px-6 lg:px-8 border-b border-cbn-gold/30 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-16 -bottom-16 opacity-10 text-[15rem] text-white pointer-events-none">
+            <i class="fa-solid fa-gears"></i>
+        </div>
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div class="space-y-3 max-w-3xl">
+                <div
+                    class="inline-flex items-center gap-2 bg-cbn-gold/20 text-cbn-gold border border-cbn-gold/40 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider">
+                    <i class="fa-solid fa-diagram-project"></i> Arquitectura Modular & Control Industrial
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight">
+                    Módulos Operativos del Sistema CBN S.A.
+                </h2>
+                <p class="text-gray-300 text-sm sm:text-base leading-relaxed font-light">
+                    Desglose técnico de los 6 subsistemas que integran la cadena de valor cervecera: desde la recepción
+                    de malta y lúpulo hasta la distribución B2B con BEES, tributación ICE y economía circular.
+                </p>
+            </div>
+            <div
+                class="bg-white/10 backdrop-blur-xl p-5 rounded-3xl border border-white/20 shadow-glass text-center min-w-[260px]">
+                <div class="text-[11px] text-cbn-gold font-extrabold uppercase tracking-widest">Estándar Global</div>
+                <div class="text-lg font-black text-white mt-0.5">VPO - AB InBev</div>
+                <div class="mt-3 pt-3 border-t border-white/20 text-xs text-gray-200 flex justify-around font-bold">
+                    <span><i class="fa-solid fa-microchip text-cbn-gold"></i> SCADA/PLC</span>
+                    <span><i class="fa-solid fa-database text-cbn-gold"></i> SAP / BEES</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full space-y-14">
+
+        <!-- SECCIÓN DE GRÁFICOS E INDICADORES INDUSTRIALES -->
+        <section id="arquitectura-graficos" class="fade-in space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-cbn-navy">Indicadores de Operación y Control (KPIs)
+                    </h3>
+                    <p class="text-sm text-gray-600">Simulación de métricas monitoreadas en tiempo real por los módulos
+                        de planta y distribución.</p>
+                </div>
+                <span
+                    class="text-xs font-black bg-cbn-navy text-cbn-gold px-4 py-2 rounded-xl uppercase tracking-wider self-start">
+                    <i class="fa-solid fa-signal"></i> Telemetría & Supply Chain
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Gráfico 1: Balance de Composición de Insumos -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-glass flex flex-col justify-between">
+                    <div class="mb-4">
+                        <h4 class="text-base font-black text-cbn-navy">Composición Volumétrica del Mosto</h4>
+                        <p class="text-xs text-gray-500">Control de dosificación en Sala de Cocción (Módulo 1 y 2)</p>
+                    </div>
+                    <div class="relative h-56 w-full flex items-center justify-center">
+                        <canvas id="chartInsumos"></canvas>
+                    </div>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between font-semibold">
+                        <span>Agua Tratada: 92%</span>
+                        <span>Malta/Adjuntos: 7.5%</span>
+                        <span>Lúpulo/Levadura: 0.5%</span>
+                    </div>
+                </div>
+
+                <!-- Gráfico 2: Curva Térmica de Maceración y Fermentación -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-glass flex flex-col justify-between">
+                    <div class="mb-4">
+                        <h4 class="text-base font-black text-cbn-navy">Curva Térmica SCADA / PLC (°C)</h4>
+                        <p class="text-xs text-gray-500">Regulación automática en Cocimiento y Tanques CCT (Módulo 2)
+                        </p>
+                    </div>
+                    <div class="relative h-56 w-full">
+                        <canvas id="chartTemperatura"></canvas>
+                    </div>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between font-semibold">
+                        <span>Ebullición: 100 °C</span>
+                        <span>Fermentación Lager: 10 °C</span>
+                        <span>Maduración: -1 °C</span>
+                    </div>
+                </div>
+
+                <!-- Gráfico 3: Distribución de Formatos de Envasado -->
+                <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-glass flex flex-col justify-between">
+                    <div class="mb-4">
+                        <h4 class="text-base font-black text-cbn-navy">Producción por Formato de Envase</h4>
+                        <p class="text-xs text-gray-500">Inspección EBI/FBI y despacho BEES (Módulo 3 y 5)</p>
+                    </div>
+                    <div class="relative h-56 w-full">
+                        <canvas id="chartEnvasado"></canvas>
+                    </div>
+                    <div
+                        class="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between font-semibold">
+                        <span>Vidrio ENVIBOL: 58%</span>
+                        <span>Latas ENALBO: 34%</span>
+                        <span>Chopp: 8%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO DETALLADO DE LOS 6 MÓDULOS -->
+        <section id="catalogo-modulos" class="fade-in space-y-8">
+            <div class="border-b border-gray-200 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-cbn-navy">Arquitectura de los 6 Módulos del Sistema
+                    </h3>
+                    <p class="text-sm text-gray-600 mt-1">Haz clic en las pestañas para filtrar por área operativa o
+                        explora todos los módulos y sus clases UML.</p>
+                </div>
+                <!-- Filtros rápidos -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filtrarModulos('todos')"
+                        class="px-3.5 py-2 rounded-xl bg-cbn-navy text-cbn-gold text-xs font-bold uppercase tracking-wider shadow-sm hover:opacity-90 transition">Todos
+                        (6)</button>
+                    <button onclick="filtrarModulos('planta')"
+                        class="px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-cbn-navy text-xs font-bold uppercase tracking-wider hover:border-cbn-gold transition">Producción
+                        & Planta</button>
+                    <button onclick="filtrarModulos('gestion')"
+                        class="px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-cbn-navy text-xs font-bold uppercase tracking-wider hover:border-cbn-gold transition">Fiscal,
+                        Logística & Control</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="grid-modulos">
+
+                <!-- MÓDULO 1 -->
+                <article data-categoria="planta"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-wheat-awn"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 01 • Entrada
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Abastecimiento de Insumos y Control de Calidad
+                            </h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Regula la recepción en balanzas camioneras, muestreo con caladores neumáticos y
+                                almacenamiento en silos de cebada malteada (nacional/importada), lúpulo
+                                (EE.UU./Alemania), levadura (cepa AB InBev), agua tratada y envases (ENVIBOL y ENALBO).
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i class="fa-solid fa-flask text-cbn-gold mr-1"></i>
+                                Parámetros Críticos Evaluados:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Humedad de grano (&lt; 5%), proteínas (9.5% - 11.5%) y poder diastásico.</li>
+                                <li>Purificación de agua por ósmosis inversa, carbón activado y ajuste iónico.</li>
+                                <li>Control microbiológico de propagación de levadura (hasta 6 generaciones).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">Proveedor</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">LoteInsumo</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">ControlCalidad</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">SiloAlmacen</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- MÓDULO 2 -->
+                <article data-categoria="planta"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-temperature-three-quarters"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 02 • Transformación
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Proceso Cervecero Central (SCADA / PLC)</h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Automatiza la sala de cocción y bodegas mediante PLCs (Siemens S7 / Braumat) siguiendo
+                                recetas maestras VPO para Paceña, Huari, Taquiña y Ducal.
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i class="fa-solid fa-sliders text-cbn-gold mr-1"></i>
+                                Etapas Bio-Industriales:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Molienda diferencial, maceración enzimática (52°C - 72°C) y Cuba Filtro.</li>
+                                <li>Ebullición a 100°C con lupulizado (IBU), Whirlpool y enfriamiento de placas.</li>
+                                <li>Fermentación en Tanques Cilíndrico-Cónicos (CCT hasta 5,000 hl), maduración a -1°C y
+                                    filtración a Tanques BBT.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">RecetaMaestraVPO</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">TanqueCCT</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">SensorSCADA</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">LoteMosto</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- MÓDULO 3 -->
+                <article data-categoria="planta"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-bottle-droplet"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 03 • Embotellado
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Líneas de Envasado Masivo y Visión Artificial
+                            </h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Sincroniza las líneas de alta velocidad para botellas retornables/descartables (620 ml,
+                                710 ml, 1L, 330 ml), latas de aluminio (354 ml, 473 ml) y barriles chopp (30L/50L).
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i class="fa-solid fa-eye text-cbn-gold mr-1"></i>
+                                Control Óptico e Inocuidad:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Lavado cáustico (65°C - 80°C) e inspección óptica 360° de botella vacía (EBI).</li>
+                                <li>Llenado isobarométrico para retención de CO₂ y túnel de pasteurización (60°C).</li>
+                                <li>Etiquetado rotativo, codificación láser de lote e inspección de nivel/tapa (FBI).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">LineaEnvasado</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">InspectorEBI</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">InspectorFBI</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">Envase</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- MÓDULO 4 -->
+                <article data-categoria="gestion"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 04 • Almacén & SIN
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Almacenes Fiscales, Stock y Liquidación ICE
+                            </h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Integra el paletizado robótico con el ERP SAP para control de inventario por lotes y el
+                                cálculo tributario automatizado ante el Servicio de Impuestos Nacionales (SIN).
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i
+                                    class="fa-solid fa-boxes-stacked text-cbn-gold mr-1"></i> Operaciones Fiscales y
+                                ERP:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Empaquetado secundario (packs de 6, 12, 24) y lectura de código de pallet en SAP.
+                                </li>
+                                <li>Cálculo en tiempo real de alícuotas específica y porcentual del ICE por hectolitro.
+                                </li>
+                                <li>Alertas automáticas de punto de reorden y trazabilidad de fechas de vencimiento.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">AlmacenFiscal</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">Pallet</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">LiquidacionICE</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">ProductoTerminado</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- MÓDULO 5 -->
+                <article data-categoria="gestion"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 05 • Supply Chain
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Logística, Distribución y Plataforma B2B BEES
+                            </h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Conecta más de 30,000 puntos de venta en Bolivia mediante la app B2B BEES con los
+                                Centros de Distribución Directa (CDDs) y flotas de transporte pesado.
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i class="fa-solid fa-route text-cbn-gold mr-1"></i>
+                                Gestión de Rutas y Entregas:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Consolidación automática de órdenes BEES y facturación electrónica en línea.</li>
+                                <li>Cubicaje de carga, hojas de ruta Cross-Docking y logística inversa de envases.</li>
+                                <li>Monitoreo telemático GPS para cumplimiento del indicador OTIF (On-Time In-Full).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">PedidoBEES</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">PuntoVenta</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">RutaDespacho</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">CamionFlota</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- MÓDULO 6 -->
+                <article data-categoria="gestion"
+                    class="modulo-card bg-white rounded-3xl border border-gray-200 shadow-glass hover:shadow-card-hover hover:border-cbn-gold transition-all overflow-hidden flex flex-col justify-between">
+                    <div class="p-8 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-cbn-navy to-cbn-blue text-cbn-gold rounded-2xl flex items-center justify-center text-2xl shadow-md">
+                                <i class="fa-solid fa-recycle"></i>
+                            </div>
+                            <span
+                                class="bg-cbn-gold/20 text-cbn-navy text-xs font-black px-3.5 py-1.5 rounded-full uppercase border border-cbn-gold/40">
+                                Módulo 06 • Circularidad & Seguridad
+                            </span>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-black text-cbn-navy">Economía Circular, Subproductos y Auditoría
+                            </h4>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Gestiona la valorización de subproductos industriales (bagazo, levadura residual, CO₂
+                                recuperado), limpieza automatizada CIP y el control de roles/seguridad de planta.
+                            </p>
+                        </div>
+                        <div class="bg-cbn-lightBg p-4 rounded-2xl space-y-2 text-xs">
+                            <div class="font-bold text-cbn-navy"><i class="fa-solid fa-leaf text-cbn-gold mr-1"></i>
+                                Sostenibilidad y Control de Acceso:</div>
+                            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                <li>Entrega de bagazo de malta a ganaderos y recaptura de CO₂ para carbonatación.</li>
+                                <li>Reciclaje de vidrio roto (cullet) hacia ENVIBOL y chatarra de aluminio a fundición.
+                                </li>
+                                <li>Gestión de roles (Maestro Cervecero, Operador, Auditor) y bitácoras de seguridad.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-cbn-navy/5 px-8 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-cbn-navy uppercase">Clases UML Clave:</span>
+                        <div class="flex flex-wrap gap-1.5 text-[11px] font-semibold">
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">Subproducto</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">SistemaCIP</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">UsuarioPlanta</span>
+                            <span
+                                class="bg-white px-2.5 py-1 rounded-lg border border-gray-200 text-cbn-blue">AuditoriaLog</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-cbn-navy text-white border-t-4 border-cbn-gold py-8 px-4 sm:px-6 lg:px-8 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <div class="text-center sm:text-left">
+                <p class="font-black text-cbn-gold uppercase tracking-wider">Proyecto Académico - Cervecería Boliviana
+                    Nacional S.A. (CBN)</p>
+                <p class="text-gray-400 mt-1">Carrera de Informática • Universidad Mayor de San Andrés (UMSA) • La Paz,
+                    Bolivia</p>
+            </div>
+            <a href="index.html"
+                class="px-5 py-2.5 rounded-xl bg-cbn-gold text-cbn-navy font-black uppercase tracking-wider hover:bg-amber-400 transition">
+                <i class="fa-solid fa-house mr-1"></i> Regresar al Portal Principal
+            </a>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS PARA GRÁFICOS Y FILTROS -->
+    <script>
+        // 1. Gráfico Donut: Composición de Insumos
+        new Chart(document.getElementById('chartInsumos'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Agua Tratada', 'Cebada Malteada', 'Adjuntos (Maíz/Quinua)', 'Lúpulo & Levadura'],
+                datasets: [{
+                    data: [92, 5.5, 2.0, 0.5],
+                    backgroundColor: ['#0C2340', '#D4AF37', '#1A3B66', '#C8102E'],
+                    borderWidth: 2,
+                    borderColor: '#FFFFFF'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 10, family: 'Inter' } } }
+                }
+            }
+        });
+
+        // 2. Gráfico de Línea: Curva Térmica SCADA
+        new Chart(document.getElementById('chartTemperatura'), {
+            type: 'line',
+            data: {
+                labels: ['Maceración', 'Ebullición', 'Enfriamiento', 'Fermentación', 'Maduración'],
+                datasets: [{
+                    label: 'Temperatura (°C)',
+                    data: [65, 100, 10, 12, -1],
+                    borderColor: '#D4AF37',
+                    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#0C2340',
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.35
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, ticks: { font: { size: 10 } } },
+                    x: { ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // 3. Gráfico de Barras: Formatos de Envasado
+        new Chart(document.getElementById('chartEnvasado'), {
+            type: 'bar',
+            data: {
+                labels: ['Vidrio 620ml', 'Latas 354ml', 'Vidrio 1L', 'Latones 473ml', 'Chopp 50L'],
+                datasets: [{
+                    label: 'Participación (%)',
+                    data: [42, 24, 16, 10, 8],
+                    backgroundColor: ['#0C2340', '#1A3B66', '#D4AF37', '#FFBF00', '#C8102E'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+                    x: { ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // Filtro de tarjetas de módulos
+        function filtrarModulos(categoria) {
+            const cards = document.querySelectorAll('.modulo-card');
+            cards.forEach(card => {
+                if (categoria === 'todos' || card.getAttribute('data-categoria') === categoria) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
