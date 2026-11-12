@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramas y Modelado de Sistemas | CBN S.A.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cbn-navy': '#0B1D3A',
+                        'cbn-blue': '#13315C',
+                        'cbn-gold': '#E5A93C',
+                        'cbn-light': '#F4F6F9'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body class="bg-cbn-light text-slate-800 antialiased">
+
+    <!-- ENCABEZADO Y NAVEGACIÓN -->
+    <header class="bg-cbn-navy text-white border-b-2 border-cbn-gold sticky top-0 z-50 shadow-lg">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-cbn-gold text-cbn-navy flex items-center justify-center font-extrabold text-xl shadow">
+                    <i class="fa-solid fa-beer-mug-empty"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm sm:text-base tracking-wide uppercase">Cervecería Boliviana
+                        Nacional S.A.</h1>
+                    <p class="text-[11px] text-cbn-gold font-semibold uppercase tracking-wider">UMSA • Facultad de
+                        Ciencias Puras y Naturales • Informática</p>
+                </div>
+            </div>
+
+            <nav
+                class="flex items-center space-x-1 sm:space-x-2 overflow-x-auto py-1 w-full md:w-auto justify-start md:justify-end">
+                <a href="index.html"
+                    class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-cbn-gold transition-all font-semibold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-house text-cbn-gold"></i> Inicio
+                </a>
+                <a href="modulos.html"
+                    class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-cbn-gold transition-all font-semibold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-industry text-cbn-gold"></i> Módulos CBN
+                </a>
+                <a href="diagramas.html"
+                    class="px-3 py-2 rounded-xl bg-cbn-gold text-cbn-navy font-bold text-xs uppercase tracking-wider flex items-center gap-2 whitespace-nowrap shadow">
+                    <i class="fa-solid fa-diagram-project"></i> Diagramas
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section
+        class="bg-gradient-to-br from-cbn-navy via-cbn-blue to-cbn-navy text-white py-12 px-4 border-b-4 border-cbn-gold">
+        <div class="max-w-7xl mx-auto">
+            <span
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-cbn-gold/40 text-cbn-gold text-xs font-bold uppercase tracking-wider mb-4">
+                <i class="fa-solid fa-sitemap"></i> Paradigma Estructurado • Análisis y Diseño de Sistemas
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Modelado Ambiental y de Comportamiento
+            </h2>
+            <p class="text-slate-300 max-w-3xl text-sm sm:text-base leading-relaxed">
+                Especificación formal de límites del sistema, flujos de datos operativos (DFD Nivel 0 y Nivel 1) y ciclo
+                de vida logístico mediante Diagrama de Transición de Estados (DTE) bajo estándares VPO y normativa
+                tributaria SIN.
+            </p>
+
+            <!-- FILTROS DE NAVEGACIÓN INTERNA -->
+            <div class="flex flex-wrap gap-2 mt-6">
+                <button onclick="filtrarSeccion('todos')" id="btn-todos"
+                    class="filtro-btn px-4 py-2 rounded-xl bg-cbn-gold text-cbn-navy font-bold text-xs uppercase tracking-wider transition-all">
+                    Ver Todos
+                </button>
+                <button onclick="filtrarSeccion('ambiental')" id="btn-ambiental"
+                    class="filtro-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all">
+                    1. Modelo Ambiental
+                </button>
+                <button onclick="filtrarSeccion('dfd0')" id="btn-dfd0"
+                    class="filtro-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all">
+                    2. DFD Nivel 0 (Producción)
+                </button>
+                <button onclick="filtrarSeccion('dfd1')" id="btn-dfd1"
+                    class="filtro-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all">
+                    3. DFD Nivel 1 (Proceso 3)
+                </button>
+                <button onclick="filtrarSeccion('dte')" id="btn-dte"
+                    class="filtro-btn px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all">
+                    4. Transición de Estados (DTE)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+
+        <!-- ========================================================= -->
+        <!-- SECCIÓN 1: MODELO AMBIENTAL                               -->
+        <!-- ========================================================= -->
+        <article id="sec-ambiental"
+            class="seccion-diagrama bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+            <div
+                class="bg-cbn-navy text-white px-6 py-4 flex flex-wrap justify-between items-center gap-2 border-b-2 border-cbn-gold">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-cbn-gold text-cbn-navy font-extrabold flex items-center justify-center text-sm">01</span>
+                    <h3 class="font-bold text-lg uppercase tracking-wide">Modelo Ambiental del Sistema</h3>
+                </div>
+                <span class="text-xs bg-white/10 px-3 py-1 rounded-full text-cbn-gold font-semibold">Delimitación y
+                    Entidades Externas</span>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Declaración de Propósitos -->
+                <div class="bg-cbn-light border-l-4 border-cbn-gold p-5 rounded-r-xl">
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-cbn-navy mb-2">1.1. Declaración de
+                        Propósitos</h4>
+                    <p class="text-sm text-slate-700 italic leading-relaxed">
+                        "El sistema tiene como objetivo optimizar, regular, automatizar y controlar de manera integral
+                        los procesos industriales, la producción a gran escala, la gestión de almacenes fiscales, el
+                        control de calidad y la cadena de suministro (Supply Chain) de la Cervecería Boliviana Nacional
+                        S.A. (CBN) mediante mecanismos de monitoreo en tiempo real, cumplimiento normativo fiscal y
+                        estándares globales de manufactura."
+                    </p>
+                </div>
+
+                <!-- Diagrama de Contexto SVG -->
+                <div>
+                    <h4
+                        class="text-sm font-extrabold uppercase tracking-wider text-cbn-navy mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-nodes text-cbn-gold"></i> 1.2. Diagrama de Contexto (Nivel
+                        Superior)
+                    </h4>
+                    <div
+                        class="diagram-container bg-white border border-slate-200 rounded-xl p-4 shadow-inner overflow-x-auto">
+                        <svg viewBox="0 0 960 660" xmlns="http://www.w3.org/2000/svg" class="min-w-[780px]">
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                                    markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b" />
+                                </marker>
+                                <marker id="arrow-brown" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                                    markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#9a3412" />
+                                </marker>
+                                <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+                                    markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#0369a1" />
+                                </marker>
+                            </defs>
+
+                            <!-- Entidad Superior: ADMINISTRADOR -->
+                            <rect x="405" y="15" width="150" height="55" rx="8" fill="#fed7aa" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="480" y="47" text-anchor="middle" font-size="12" font-weight="700"
+                                fill="#0f172a">ADMINISTRADOR</text>
+
+                            <!-- Entidad Izquierda Arriba: PROVEEDORES -->
+                            <rect x="15" y="190" width="165" height="65" rx="8" fill="#cbd5e1" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="97" y="218" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">PROVEEDORES DE</text>
+                            <text x="97" y="234" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">INSUMOS Y ENVASES</text>
+
+                            <!-- Entidad Izquierda Abajo: PERSONAL OPERATIVO -->
+                            <rect x="15" y="425" width="165" height="75" rx="8" fill="#ddd6fe" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="97" y="450" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">PERSONAL</text>
+                            <text x="97" y="465" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">OPERATIVO Y</text>
+                            <text x="97" y="480" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">TÉCNICO DE PLANTA</text>
+
+                            <!-- Entidad Derecha Arriba: CLIENTES BEES -->
+                            <rect x="780" y="190" width="165" height="65" rx="8" fill="#fecaca" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="862" y="218" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">CLIENTES Y PUNTOS</text>
+                            <text x="862" y="234" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">DE VENTA (BEES)</text>
+
+                            <!-- Entidad Derecha Abajo: SIN -->
+                            <rect x="780" y="425" width="165" height="65" rx="8" fill="#a5f3fc" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="862" y="453" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">SERVICIO DE IMPUESTOS</text>
+                            <text x="862" y="469" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">NACIONALES (SIN)</text>
+
+                            <!-- Entidad Inferior: LOGÍSTICA -->
+                            <rect x="395" y="585" width="170" height="60" rx="8" fill="#bae6fd" stroke="#475569"
+                                stroke-width="1.5" />
+                            <text x="480" y="611" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">PERSONAL DE</text>
+                            <text x="480" y="627" text-anchor="middle" font-size="11" font-weight="700"
+                                fill="#0f172a">LOGÍSTICA Y TRANSPORTE</text>
+
+                            <!-- CÍRCULO CENTRAL -->
+                            <circle cx="480" cy="340" r="110" fill="#ffffff" stroke="#0B1D3A" stroke-width="2.5" />
+                            <text x="480" y="315" text-anchor="middle" font-size="12" font-weight="800"
+                                fill="#0B1D3A">SISTEMA AUTOMATIZADO</text>
+                            <text x="480" y="333" text-anchor="middle" font-size="12" font-weight="800"
+                                fill="#0B1D3A">DE GESTIÓN DE CERVECERÍA</text>
+                            <text x="480" y="351" text-anchor="middle" font-size="12" font-weight="800" fill="#0B1D3A">Y
+                                CADENA DE SUMINISTRO</text>
+                            <text x="480" y="371" text-anchor="middle" font-size="13" font-weight="800"
+                                fill="#E5A93C">(CBN)</text>
+
+                            <!-- Flujos Administrador <-> Sistema -->
+                            <path d="M 430 70 L 430 242" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="382" y="125" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">PARÁMETROS DE</text>
+                            <text x="382" y="136" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">CONFIGURACIÓN</text>
+
+                            <path d="M 465 231 L 465 70" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="465" y="170" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b"
+                                transform="rotate(-90 458 170)">REPORTES GERENCIALES</text>
+
+                            <path d="M 500 70 L 500 232" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="552" y="120" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">GESTIÓN DE USUARIOS</text>
+                            <text x="552" y="131" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b">Y
+                                ROLES DE PLANTA</text>
+
+                            <path d="M 535 245 L 535 70" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="595" y="165" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">AUDITORÍAS Y LOGS</text>
+                            <text x="595" y="176" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b">DE
+                                SEGURIDAD</text>
+
+                            <!-- Flujos Proveedores <-> Sistema -->
+                            <path d="M 180 200 C 260 175, 310 220, 382 285" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="275" y="175" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">DATOS DE REMISIÓN DE MATERIAS PRIMAS</text>
+
+                            <path d="M 374 305 C 300 250, 250 205, 180 215" fill="none" stroke="#9a3412"
+                                stroke-width="1.3" marker-end="url(#arrow-brown)" />
+                            <text x="275" y="210" text-anchor="middle" font-size="9" font-weight="700"
+                                fill="#9a3412">ÓRDENES DE COMPRA</text>
+
+                            <path d="M 180 230 C 250 230, 300 275, 370 325" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="265" y="242" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">REMISIÓN DE ENVASES</text>
+
+                            <path d="M 370 345 C 295 315, 245 255, 180 245" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="250" y="280" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">SOLICITUDES AUTOMÁTICAS</text>
+                            <text x="250" y="291" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b">DE
+                                REABASTECIMIENTO</text>
+
+                            <!-- Flujos Personal Operativo <-> Sistema -->
+                            <path d="M 180 435 C 260 430, 310 390, 373 365" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="265" y="395" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">PARÁMETROS DE RECETAS</text>
+                            <text x="265" y="406" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">MAESTRAS VPO</text>
+
+                            <path d="M 380 385 C 315 415, 260 450, 180 450" fill="none" stroke="#0369a1"
+                                stroke-width="1.3" marker-end="url(#arrow-blue)" />
+                            <text x="275" y="438" text-anchor="middle" font-size="9" font-weight="700"
+                                fill="#0369a1">REPORTES DE RENDIMIENTO</text>
+
+                            <path d="M 180 470 C 265 480, 325 435, 392 405" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="285" y="476" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">VARIABLES SCADA/PLC</text>
+
+                            <path d="M 405 422 C 340 465, 275 505, 180 490" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="295" y="510" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">ALERTAS Y KPIS DE PLANTA</text>
+
+                            <!-- Flujos Clientes BEES <-> Sistema -->
+                            <path d="M 780 205 C 700 195, 640 235, 578 288" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="685" y="200" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">ÓRDENES Y PEDIDOS B2B (BEES)</text>
+
+                            <path d="M 588 315 C 655 275, 710 225, 780 225" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="690" y="255" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">CONFIRMACIÓN DE PEDIDOS</text>
+
+                            <path d="M 590 340 C 660 315, 715 250, 780 245" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="705" y="302" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">FACTURACIÓN ELECTRÓNICA</text>
+
+                            <!-- Flujos SIN <-> Sistema -->
+                            <path d="M 585 375 C 655 405, 710 440, 780 445" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="690" y="395" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">DECLARACIONES Y LIQUIDACIÓN</text>
+                            <text x="690" y="406" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b">DE
+                                IMPUESTOS (ICE / IVA)</text>
+
+                            <path d="M 780 470 C 700 475, 640 435, 575 398" fill="none" stroke="#1e293b"
+                                stroke-width="1.2" marker-end="url(#arrow)" />
+                            <text x="685" y="485" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">NORMATIVAS Y ALÍCUOTAS VIGENTES</text>
+
+                            <!-- Flujos Logística <-> Sistema -->
+                            <path d="M 435 585 L 435 440" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="382" y="535" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">CONFIRMACIÓN</text>
+                            <text x="382" y="546" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b">DE
+                                CARGA</text>
+
+                            <path d="M 465 449 L 465 585" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="465" y="518" text-anchor="middle" font-size="9" font-weight="600" fill="#1e293b"
+                                transform="rotate(-90 458 518)">HOJAS DE RUTA</text>
+
+                            <path d="M 498 585 L 498 448" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="548" y="505" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">REPORTES GPS</text>
+                            <text x="548" y="516" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">(OTIF)</text>
+
+                            <path d="M 530 438 L 530 585" fill="none" stroke="#1e293b" stroke-width="1.2"
+                                marker-end="url(#arrow)" />
+                            <text x="590" y="550" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">ÓRDENES DE</text>
+                            <text x="590" y="561" text-anchor="middle" font-size="9" font-weight="600"
+                                fill="#1e293b">DESPACHO</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Lista de Acontecimientos -->
+                <div>
+                    <h4
+                        class="text-sm font-extrabold uppercase tracking-wider text-cbn-navy mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-cbn-gold"></i> 1.3. Lista Oficial de Acontecimientos
+                        (Estímulo - Respuesta)
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">01</span>
+                            <p>El <strong>Administrador</strong> gestiona los usuarios, asigna roles de acceso a la
+                                planta y configura los parámetros generales del sistema.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">02</span>
+                            <p>El <strong>Administrador</strong> solicita auditorías, registros de seguridad (logs) y
+                                reportes gerenciales del estado operativo global.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">03</span>
+                            <p>El <strong>Proveedor de Insumos y Envases</strong> envía la remisión de lotes de materias
+                                primas (malta, lúpulo, levadura) y envases (ENVIBOL / ENALBO).</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">04</span>
+                            <p>El <strong>Sistema</strong> genera órdenes de compra y envía solicitudes automáticas de
+                                reabastecimiento al proveedor al llegar al punto de reorden.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">05</span>
+                            <p>El <strong>Personal Operativo y Técnico</strong> ingresa los parámetros de recetas
+                                maestras (VPO) y configura variables de control SCADA/PLC.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">06</span>
+                            <p>El <strong>Sistema</strong> emite alertas de proceso en tiempo real, KPIs de rendimiento
+                                de cocción/envasado y reportes de calidad para el personal técnico.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">07</span>
+                            <p>El <strong>Cliente / Punto de Venta (BEES)</strong> realiza y transmite una orden de
+                                compra o pedido B2B a través de la plataforma digital.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">08</span>
+                            <p>El <strong>Sistema</strong> procesa la orden, emite la confirmación del pedido y genera
+                                la facturación electrónica en línea para el cliente.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">09</span>
+                            <p>El <strong>Servicio de Impuestos Nacionales (SIN)</strong> actualiza las normativas
+                                fiscales, alícuotas y tasas vigentes del ICE e IVA.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex gap-3">
+                            <span class="font-extrabold text-cbn-navy bg-cbn-gold/30 px-2 py-1 rounded h-fit">10</span>
+                            <p>El <strong>Sistema</strong> calcula y envía las declaraciones fiscales y liquidaciones
+                                tributarias de la producción al SIN.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================================= -->
+        <!-- SECCIÓN 2: DFD NIVEL 0                                    -->
+        <!-- ========================================================= -->
+        <article id="sec-dfd0"
+            class="seccion-diagrama bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+            <div
+                class="bg-cbn-navy text-white px-6 py-4 flex flex-wrap justify-between items-center gap-2 border-b-2 border-cbn-gold">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-cbn-gold text-cbn-navy font-extrabold flex items-center justify-center text-sm">02</span>
+                    <h3 class="font-bold text-lg uppercase tracking-wide">Modelo de Comportamiento: DFD Nivel 0</h3>
+                </div>
+                <span class="text-xs bg-white/10 px-3 py-1 rounded-full text-cbn-gold font-semibold">Proceso Integral de
+                    Elaboración de Cerveza</span>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Representa la cadena secuencial de transformación industrial de la cerveza dentro de la planta de
+                    <strong>CBN S.A.</strong>, articulando las entradas externas con los almacenes internos de datos
+                    (<code class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-cbn-navy">D1 – D4</code>) hasta la
+                    obtención del producto terminado paletizado:
+                </p>
+
+                <!-- Diagrama DFD Nivel 0 SVG -->
+                <div
+                    class="diagram-container bg-white border border-slate-200 rounded-xl p-4 shadow-inner overflow-x-auto">
+                    <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" class="min-w-[780px]">
+                        <defs>
+                            <marker id="arr0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+                                orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a" />
+                            </marker>
+                        </defs>
+
+                        <text x="480" y="25" text-anchor="middle" font-size="13" font-weight="800"
+                            fill="#0B1D3A">DIAGRAMA DE FLUJO DE DATOS - NIVEL 0 (PROCESO DE ELABORACIÓN DE CERVEZA
+                            CBN)</text>
+
+                        <!-- Entidades Externas -->
+                        <rect x="35" y="55" width="165" height="55" fill="#f8fafc" stroke="#0f172a"
+                            stroke-width="1.5" />
+                        <text x="117" y="79" text-anchor="middle" font-size="10" font-weight="700">PROVEEDORES DE</text>
+                        <text x="117" y="93" text-anchor="middle" font-size="10" font-weight="700">INSUMOS Y
+                            ENVASES</text>
+
+                        <rect x="345" y="55" width="220" height="55" fill="#f8fafc" stroke="#0f172a"
+                            stroke-width="1.5" />
+                        <text x="455" y="79" text-anchor="middle" font-size="10" font-weight="700">PERSONAL OPERATIVO
+                            Y</text>
+                        <text x="455" y="93" text-anchor="middle" font-size="10" font-weight="700">TÉCNICO DE
+                            PLANTA</text>
+
+                        <rect x="745" y="465" width="180" height="50" fill="#f8fafc" stroke="#0f172a"
+                            stroke-width="1.5" />
+                        <text x="835" y="487" text-anchor="middle" font-size="10" font-weight="700">PERSONAL DE
+                            LOGÍSTICA</text>
+                        <text x="835" y="501" text-anchor="middle" font-size="10" font-weight="700">Y TRANSPORTE</text>
+
+                        <!-- Procesos (Círculos) -->
+                        <circle cx="117" cy="245" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="117" y="233" text-anchor="middle" font-size="10" font-weight="800">1.
+                            RECEPCIONAR</text>
+                        <text x="117" y="247" text-anchor="middle" font-size="10" font-weight="800">Y VALIDAR</text>
+                        <text x="117" y="261" text-anchor="middle" font-size="10" font-weight="800">INSUMOS</text>
+
+                        <circle cx="385" cy="245" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="385" y="233" text-anchor="middle" font-size="10" font-weight="800">2. EJECUTAR</text>
+                        <text x="385" y="247" text-anchor="middle" font-size="10" font-weight="800">COCCIÓN Y</text>
+                        <text x="385" y="261" text-anchor="middle" font-size="10" font-weight="800">MACERACIÓN</text>
+
+                        <circle cx="625" cy="275" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="625" y="263" text-anchor="middle" font-size="10" font-weight="800">3. CONTROLAR</text>
+                        <text x="625" y="277" text-anchor="middle" font-size="10" font-weight="800">FERMENTACIÓN
+                            Y</text>
+                        <text x="625" y="291" text-anchor="middle" font-size="10" font-weight="800">MADURACIÓN</text>
+
+                        <circle cx="835" cy="275" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="835" y="257" text-anchor="middle" font-size="9.5" font-weight="800">4. ENVASAR,</text>
+                        <text x="835" y="270" text-anchor="middle" font-size="9.5" font-weight="800">INSPECCIONAR
+                            Y</text>
+                        <text x="835" y="283" text-anchor="middle" font-size="9.5" font-weight="800">PALETIZAR</text>
+                        <text x="835" y="296" text-anchor="middle" font-size="9.5" font-weight="800">PRODUCTO</text>
+
+                        <!-- Almacenes de Datos (Líneas paralelas) -->
+                        <line x1="40" y1="365" x2="195" y2="365" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="40" y1="395" x2="195" y2="395" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="117" y="378" text-anchor="middle" font-size="9" font-weight="700">D1. INSUMOS Y</text>
+                        <text x="117" y="390" text-anchor="middle" font-size="9" font-weight="700">ENVASES
+                            APROBADOS</text>
+
+                        <line x1="315" y1="365" x2="465" y2="365" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="315" y1="395" x2="465" y2="395" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="390" y="378" text-anchor="middle" font-size="9" font-weight="700">D2. LOTES DE
+                            MOSTO</text>
+                        <text x="390" y="390" text-anchor="middle" font-size="9" font-weight="700">EN COCCIÓN</text>
+
+                        <line x1="550" y1="390" x2="700" y2="390" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="550" y1="420" x2="700" y2="420" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="625" y="403" text-anchor="middle" font-size="9" font-weight="700">D3. CERVEZA
+                            FILTRADA</text>
+                        <text x="625" y="415" text-anchor="middle" font-size="9" font-weight="700">(TANQUES BBT)</text>
+
+                        <line x1="755" y1="390" x2="915" y2="390" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="755" y1="420" x2="915" y2="420" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="835" y="403" text-anchor="middle" font-size="9" font-weight="700">D4. INVENTARIO
+                            DE</text>
+                        <text x="835" y="415" text-anchor="middle" font-size="9" font-weight="700">PRODUCTO
+                            TERMINADO</text>
+
+                        <!-- Flechas -->
+                        <line x1="95" y1="110" x2="95" y2="192" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="48" y="145" text-anchor="middle" font-size="8" font-weight="600">DATOS REMISIÓN</text>
+                        <text x="48" y="155" text-anchor="middle" font-size="8" font-weight="600">MATERIAS PRIMAS</text>
+
+                        <line x1="140" y1="110" x2="140" y2="192" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="180" y="145" text-anchor="middle" font-size="8" font-weight="600">REMISIÓN DE</text>
+                        <text x="180" y="155" text-anchor="middle" font-size="8" font-weight="600">ENVASES</text>
+
+                        <line x1="117" y1="301" x2="117" y2="363" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="65" y="330" text-anchor="middle" font-size="8" font-weight="600">REGISTRO LOTES</text>
+
+                        <line x1="195" y1="380" x2="313" y2="380" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="254" y="365" text-anchor="middle" font-size="8" font-weight="600">MALTA, LÚPULO</text>
+                        <text x="254" y="375" text-anchor="middle" font-size="8" font-weight="600">Y AGUA TRATADA</text>
+
+                        <line x1="385" y1="110" x2="385" y2="188" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="325" y="145" text-anchor="middle" font-size="8" font-weight="600">PARÁMETROS
+                            RECETAS</text>
+                        <text x="325" y="155" text-anchor="middle" font-size="8" font-weight="600">MAESTRAS VPO</text>
+
+                        <path d="M 435 215 L 475 185 L 475 112" fill="none" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="530" y="145" text-anchor="middle" font-size="8" font-weight="600">VARIABLES
+                            CONTROL</text>
+                        <text x="530" y="155" text-anchor="middle" font-size="8" font-weight="600">SCADA / PLC</text>
+
+                        <line x1="385" y1="301" x2="385" y2="363" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="435" y="332" text-anchor="middle" font-size="8" font-weight="600">MOSTO ENFRIADO</text>
+
+                        <path d="M 465 380 L 520 380 L 520 295 L 568 295" fill="none" stroke="#0f172a"
+                            stroke-width="1.3" marker-end="url(#arr0)" />
+                        <text x="515" y="355" text-anchor="middle" font-size="8" font-weight="600">LOTE DE MOSTO</text>
+
+                        <line x1="625" y1="331" x2="625" y2="388" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="678" y="355" text-anchor="middle" font-size="8" font-weight="600">CERVEZA
+                            MADURADA</text>
+                        <text x="678" y="365" text-anchor="middle" font-size="8" font-weight="600">Y FILTRADA</text>
+
+                        <path d="M 700 405 L 740 405 L 740 300 L 780 300" fill="none" stroke="#0f172a"
+                            stroke-width="1.3" marker-end="url(#arr0)" />
+                        <text x="740" y="365" text-anchor="middle" font-size="8" font-weight="600">CERVEZA LISTA</text>
+
+                        <line x1="835" y1="331" x2="835" y2="388" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+                        <text x="892" y="355" text-anchor="middle" font-size="8" font-weight="600">PRODUCTO
+                            TERMINADO</text>
+                        <text x="892" y="365" text-anchor="middle" font-size="8" font-weight="600">PALETIZADO</text>
+
+                        <line x1="835" y1="420" x2="835" y2="463" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr0)" />
+
+                        <path d="M 835 219 L 835 160 L 680 160 L 650 82 L 568 82" fill="none" stroke="#0f172a"
+                            stroke-width="1.3" marker-end="url(#arr0)" />
+                        <text x="765" y="142" text-anchor="middle" font-size="8" font-weight="600">REPORTES DE
+                            RENDIMIENTO DE COCCIÓN Y ENVASADO</text>
+                    </svg>
+                </div>
+
+                <!-- Pasos resumidos -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="p-4 rounded-xl bg-cbn-light border border-slate-200">
+                        <span class="font-extrabold text-cbn-blue block mb-1">1. Recepción y Validación</span>
+                        <p class="text-slate-600">Valida remisiones de malta, lúpulo y envases, registrando lotes
+                            aprobados en <strong>D1</strong>.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cbn-light border border-slate-200">
+                        <span class="font-extrabold text-cbn-blue block mb-1">2. Cocción y Maceración</span>
+                        <p class="text-slate-600">Aplica recetas maestras VPO bajo control SCADA/PLC y deposita mosto
+                            enfriado en <strong>D2</strong>.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cbn-light border border-slate-200">
+                        <span class="font-extrabold text-cbn-blue block mb-1">3. Fermentación y Maduración</span>
+                        <p class="text-slate-600">Supervisa tanques CCT (-1 °C), emite alertas KPIs y trasvasa cerveza
+                            filtrada a <strong>D3</strong>.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-cbn-light border border-slate-200">
+                        <span class="font-extrabold text-cbn-blue block mb-1">4. Envasado y Paletizado</span>
+                        <p class="text-slate-600">Ejecuta inspección óptica EBI/FBI, registra pallets en
+                            <strong>D4</strong> y despacha a Logística.</p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================================= -->
+        <!-- SECCIÓN 3: DFD NIVEL 1 (PROCESO 3)                        -->
+        <!-- ========================================================= -->
+        <article id="sec-dfd1"
+            class="seccion-diagrama bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+            <div
+                class="bg-cbn-navy text-white px-6 py-4 flex flex-wrap justify-between items-center gap-2 border-b-2 border-cbn-gold">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-cbn-gold text-cbn-navy font-extrabold flex items-center justify-center text-sm">03</span>
+                    <h3 class="font-bold text-lg uppercase tracking-wide">DFD Nivel 1: Explosión del Proceso 3</h3>
+                </div>
+                <span class="text-xs bg-white/10 px-3 py-1 rounded-full text-cbn-gold font-semibold">Control de
+                    Fermentación, Maduración y Filtrado</span>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Desglosa internamente el proceso de bio-transformación en bodega en <strong>4 subprocesos
+                        secuenciales</strong> (<code
+                        class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-cbn-navy">3.1 – 3.4</code>),
+                    garantizando la trazabilidad térmica, dosificación de levadura y clarificación final hacia los
+                    Tanques BBT:
+                </p>
+
+                <!-- Diagrama DFD Nivel 1 SVG -->
+                <div
+                    class="diagram-container bg-white border border-slate-200 rounded-xl p-4 shadow-inner overflow-x-auto">
+                    <svg viewBox="0 0 960 470" xmlns="http://www.w3.org/2000/svg" class="min-w-[780px]">
+                        <defs>
+                            <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+                                orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a" />
+                            </marker>
+                        </defs>
+
+                        <text x="480" y="25" text-anchor="middle" font-size="13" font-weight="800"
+                            fill="#0B1D3A">DIAGRAMA DE FLUJO DE DATOS - NIVEL 1 (PROCESO 3: CONTROL DE FERMENTACIÓN Y
+                            MADURACIÓN)</text>
+
+                        <!-- Entidad Externa -->
+                        <rect x="40" y="50" width="210" height="55" fill="#f8fafc" stroke="#0f172a"
+                            stroke-width="1.5" />
+                        <text x="145" y="74" text-anchor="middle" font-size="10" font-weight="700">PERSONAL
+                            OPERATIVO</text>
+                        <text x="145" y="88" text-anchor="middle" font-size="10" font-weight="700">Y TÉCNICO DE
+                            PLANTA</text>
+
+                        <!-- Subprocesos -->
+                        <circle cx="145" cy="225" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="145" y="213" text-anchor="middle" font-size="10" font-weight="800">3.1.
+                            DOSIFICAR</text>
+                        <text x="145" y="227" text-anchor="middle" font-size="10" font-weight="800">LEVADURA EN</text>
+                        <text x="145" y="241" text-anchor="middle" font-size="10" font-weight="800">CCT</text>
+
+                        <circle cx="385" cy="225" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="385" y="213" text-anchor="middle" font-size="10" font-weight="800">3.2.
+                            MONITOREAR</text>
+                        <text x="385" y="227" text-anchor="middle" font-size="10" font-weight="800">CURVA TÉRMICA</text>
+                        <text x="385" y="241" text-anchor="middle" font-size="10" font-weight="800">SCADA</text>
+
+                        <circle cx="625" cy="225" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="625" y="213" text-anchor="middle" font-size="10" font-weight="800">3.3. EJECUTAR</text>
+                        <text x="625" y="227" text-anchor="middle" font-size="10" font-weight="800">MADURACIÓN</text>
+                        <text x="625" y="241" text-anchor="middle" font-size="10" font-weight="800">EN FRÍO</text>
+
+                        <circle cx="855" cy="225" r="56" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <text x="855" y="213" text-anchor="middle" font-size="10" font-weight="800">3.4. FILTRAR
+                            Y</text>
+                        <text x="855" y="227" text-anchor="middle" font-size="10" font-weight="800">TRANSFERIR A</text>
+                        <text x="855" y="241" text-anchor="middle" font-size="10" font-weight="800">BBT</text>
+
+                        <!-- Almacenes de Datos -->
+                        <line x1="65" y1="340" x2="225" y2="340" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="65" y1="370" x2="225" y2="370" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="145" y="353" text-anchor="middle" font-size="9" font-weight="700">D3.1. TANQUES
+                            DE</text>
+                        <text x="145" y="365" text-anchor="middle" font-size="9" font-weight="700">FERMENTACIÓN
+                            CCT</text>
+
+                        <line x1="305" y1="340" x2="465" y2="340" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="305" y1="370" x2="465" y2="370" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="385" y="353" text-anchor="middle" font-size="9" font-weight="700">D3.2. TANQUES
+                            EN</text>
+                        <text x="385" y="365" text-anchor="middle" font-size="9" font-weight="700">MADURACIÓN
+                            (-1°C)</text>
+
+                        <line x1="545" y1="340" x2="705" y2="340" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="545" y1="370" x2="705" y2="370" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="625" y="353" text-anchor="middle" font-size="9" font-weight="700">D3.3. CERVEZA</text>
+                        <text x="625" y="365" text-anchor="middle" font-size="9" font-weight="700">MADURADA SIN
+                            FILTRAR</text>
+
+                        <line x1="775" y1="415" x2="935" y2="415" stroke="#0f172a" stroke-width="1.8" />
+                        <line x1="775" y1="445" x2="935" y2="445" stroke="#0f172a" stroke-width="1.8" />
+                        <text x="855" y="428" text-anchor="middle" font-size="9" font-weight="700">D3. CERVEZA
+                            FILTRADA</text>
+                        <text x="855" y="440" text-anchor="middle" font-size="9" font-weight="700">(TANQUES BBT)</text>
+
+                        <!-- Flujos -->
+                        <line x1="15" y1="225" x2="87" y2="225" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="48" y="200" text-anchor="middle" font-size="8" font-weight="600">LOTE DE</text>
+                        <text x="48" y="210" text-anchor="middle" font-size="8" font-weight="600">MOSTO</text>
+                        <text x="48" y="220" text-anchor="middle" font-size="8" font-weight="600">ENFRIADO</text>
+
+                        <line x1="145" y1="105" x2="145" y2="167" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="210" y="132" text-anchor="middle" font-size="8" font-weight="600">CEPA DE
+                            LEVADURA</text>
+                        <text x="210" y="142" text-anchor="middle" font-size="8" font-weight="600">VPO Y
+                            PARÁMETROS</text>
+
+                        <path d="M 385 169 L 385 78 L 252 78" fill="none" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="435" y="62" text-anchor="middle" font-size="8.5" font-weight="600">ALERTAS TÉRMICAS Y
+                            DE PRESIÓN SCADA</text>
+
+                        <line x1="145" y1="281" x2="145" y2="338" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="95" y="305" text-anchor="middle" font-size="8" font-weight="600">INICIALIZAR</text>
+                        <text x="95" y="315" text-anchor="middle" font-size="8" font-weight="600">FERMENTACIÓN</text>
+
+                        <line x1="225" y1="355" x2="303" y2="355" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="265" y="335" text-anchor="middle" font-size="8" font-weight="600">LOTE DE</text>
+                        <text x="265" y="345" text-anchor="middle" font-size="8" font-weight="600">FERMENTACIÓN</text>
+
+                        <line x1="385" y1="281" x2="385" y2="338" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="435" y="305" text-anchor="middle" font-size="8" font-weight="600">LOTE DE MOSTO</text>
+                        <text x="435" y="315" text-anchor="middle" font-size="8" font-weight="600">ESTABILIZADO</text>
+
+                        <line x1="465" y1="355" x2="543" y2="355" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="505" y="338" text-anchor="middle" font-size="8" font-weight="600">LOTE DE</text>
+                        <text x="505" y="348" text-anchor="middle" font-size="8" font-weight="600">MADURACIÓN</text>
+
+                        <line x1="625" y1="281" x2="625" y2="338" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="672" y="305" text-anchor="middle" font-size="8" font-weight="600">CERVEZA FRÍA</text>
+                        <text x="672" y="315" text-anchor="middle" font-size="8" font-weight="600">MADURADA</text>
+
+                        <path d="M 705 355 L 770 355 L 770 225 L 797 225" fill="none" stroke="#0f172a"
+                            stroke-width="1.3" marker-end="url(#arr1)" />
+                        <text x="738" y="338" text-anchor="middle" font-size="8" font-weight="600">LÍQUIDO</text>
+                        <text x="738" y="348" text-anchor="middle" font-size="8" font-weight="600">MADURADO</text>
+
+                        <line x1="855" y1="281" x2="855" y2="413" stroke="#0f172a" stroke-width="1.3"
+                            marker-end="url(#arr1)" />
+                        <text x="902" y="365" text-anchor="middle" font-size="8" font-weight="600">CERVEZA FINAL</text>
+                        <text x="902" y="375" text-anchor="middle" font-size="8" font-weight="600">FILTRADA LISTA</text>
+                        <text x="902" y="385" text-anchor="middle" font-size="8" font-weight="600">PARA ENVASADO</text>
+                    </svg>
+                </div>
+
+                <!-- Tabla de subprocesos -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-cbn-navy text-white uppercase">
+                                <th class="p-3 rounded-tl-lg">Subproceso</th>
+                                <th class="p-3">Entrada / Almacén</th>
+                                <th class="p-3">Acción Técnica</th>
+                                <th class="p-3 rounded-tr-lg">Salida / Almacén</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-cbn-navy">3.1. Dosificar Levadura en CCT</td>
+                                <td class="p-3">Mosto enfriado (D2) + Cepa VPO</td>
+                                <td class="p-3">Inyección y mezcla controlada en Tanque Cilíndrico-Cónico.</td>
+                                <td class="p-3 font-semibold">D3.1. Tanques de Fermentación CCT</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-cbn-navy">3.2. Monitorear Curva SCADA</td>
+                                <td class="p-3">D3.1. Tanques en fermentación</td>
+                                <td class="p-3">Regulación automática de camisas de frío (8°C - 12°C) y presión CO₂.
+                                </td>
+                                <td class="p-3 font-semibold">Alertas SCADA + D3.2. Tanques en Maduración</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-cbn-navy">3.3. Ejecutar Maduración en Frío</td>
+                                <td class="p-3">D3.2. Tanques en Maduración (-1°C)</td>
+                                <td class="p-3">Enfriamiento profundo para sedimentación y reducción de diacetilo.</td>
+                                <td class="p-3 font-semibold">D3.3. Cerveza Madurada sin Filtrar</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-cbn-navy">3.4. Filtrar y Transferir a BBT</td>
+                                <td class="p-3">D3.3. Cerveza Madurada sin Filtrar</td>
+                                <td class="p-3">Filtración tangencial/de placas para brillantez microbiológica.</td>
+                                <td class="p-3 font-semibold">D3. Cerveza Filtrada (Tanques BBT)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================================= -->
+        <!-- SECCIÓN 4: DIAGRAMA DE TRANSICIÓN DE ESTADOS (DTE)        -->
+        <!-- ========================================================= -->
+        <article id="sec-dte"
+            class="seccion-diagrama bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+            <div
+                class="bg-cbn-navy text-white px-6 py-4 flex flex-wrap justify-between items-center gap-2 border-b-2 border-cbn-gold">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-cbn-gold text-cbn-navy font-extrabold flex items-center justify-center text-sm">04</span>
+                    <h3 class="font-bold text-lg uppercase tracking-wide">Diagrama de Transición de Estados (DTE)</h3>
+                </div>
+                <span class="text-xs bg-white/10 px-3 py-1 rounded-full text-cbn-gold font-semibold">Ciclo de Vida
+                    Logístico y Entrega B2B</span>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Diagrama DTE SVG -->
+                <div
+                    class="lg:col-span-7 diagram-container bg-white border border-slate-200 rounded-xl p-4 shadow-inner overflow-x-auto">
+                    <svg viewBox="0 0 680 650" xmlns="http://www.w3.org/2000/svg" class="min-w-[560px]">
+                        <defs>
+                            <marker id="arrDTE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+                                orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f172a" />
+                            </marker>
+                            <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+                                orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#b91c1c" />
+                            </marker>
+                        </defs>
+
+                        <text x="340" y="24" text-anchor="middle" font-size="12" font-weight="800"
+                            fill="#0B1D3A">DIAGRAMA DE TRANSICIÓN DE ESTADOS (DTE) - DISTRIBUCIÓN CBN</text>
+
+                        <!-- Estado Inicial -->
+                        <circle cx="380" cy="55" r="13" fill="#0B1D3A" />
+                        <line x1="380" y1="68" x2="380" y2="108" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+                        <text x="465" y="85" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">GENERAR ORDEN DE DESPACHO</text>
+                        <text x="465" y="96" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">(SAP / BEES)</text>
+
+                        <!-- Estado 1 -->
+                        <rect x="260" y="110" width="240" height="46" rx="10" fill="#f8fafc" stroke="#0B1D3A"
+                            stroke-width="2" />
+                        <text x="380" y="130" text-anchor="middle" font-size="10.5" font-weight="800" fill="#0B1D3A">EN
+                            ALMACÉN FISCAL</text>
+                        <text x="380" y="144" text-anchor="middle" font-size="9.5" font-weight="600"
+                            fill="#334155">(PENDIENTE DE DESPACHO)</text>
+
+                        <line x1="380" y1="156" x2="380" y2="213" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+                        <text x="505" y="180" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">ASIGNAR HOJA DE RUTA Y CARGAR CAMIÓN</text>
+                        <text x="505" y="192" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">SISTEMA VALIDA STOCK Y LICENCIA ICE</text>
+
+                        <!-- Estado 2 -->
+                        <rect x="260" y="215" width="240" height="46" rx="10" fill="#f8fafc" stroke="#0B1D3A"
+                            stroke-width="2" />
+                        <text x="380" y="235" text-anchor="middle" font-size="10.5" font-weight="800" fill="#0B1D3A">EN
+                            TRÁNSITO</text>
+                        <text x="380" y="249" text-anchor="middle" font-size="9.5" font-weight="600" fill="#334155">(EN
+                            RUTA DE DISTRIBUCIÓN)</text>
+
+                        <line x1="380" y1="261" x2="380" y2="318" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+                        <text x="485" y="285" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">ARRIBO A PUNTO DE VENTA</text>
+                        <text x="485" y="297" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">MONITOREO GPS ACTIVO (OTIF)</text>
+
+                        <!-- Estado 3 -->
+                        <rect x="260" y="320" width="240" height="46" rx="10" fill="#f8fafc" stroke="#0B1D3A"
+                            stroke-width="2" />
+                        <text x="380" y="340" text-anchor="middle" font-size="10.5" font-weight="800" fill="#0B1D3A">EN
+                            PROCESO DE DESCARGA</text>
+                        <text x="380" y="354" text-anchor="middle" font-size="9.5" font-weight="600" fill="#334155">Y
+                            VALIDACIÓN</text>
+
+                        <!-- Bifurcación Excepción: PRODUCTO RECHAZADO -->
+                        <line x1="260" y1="343" x2="182" y2="343" stroke="#b91c1c" stroke-width="1.5"
+                            marker-end="url(#arrRed)" />
+                        <rect x="20" y="320" width="160" height="46" rx="10" fill="#fef2f2" stroke="#b91c1c"
+                            stroke-width="1.8" />
+                        <text x="100" y="340" text-anchor="middle" font-size="9.5" font-weight="800"
+                            fill="#991b1b">PRODUCTO RECHAZADO</text>
+                        <text x="100" y="353" text-anchor="middle" font-size="9.5" font-weight="800" fill="#991b1b">O
+                            DAÑADO</text>
+
+                        <path d="M 100 320 L 100 133 L 258 133" fill="none" stroke="#b91c1c" stroke-width="1.5"
+                            marker-end="url(#arrRed)" />
+                        <text x="145" y="235" text-anchor="middle" font-size="9" font-weight="700"
+                            fill="#991b1b">DEVOLUCIONES</text>
+
+                        <!-- Transición Estado 3 -> Estado 4 -->
+                        <line x1="380" y1="366" x2="380" y2="423" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+                        <text x="495" y="390" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">CONFIRMAR FACTURA ELECTRÓNICA</text>
+                        <text x="495" y="402" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">RECOGER BOTELLAS RETORNABLES VACÍAS</text>
+
+                        <!-- Estado 4 -->
+                        <rect x="260" y="425" width="240" height="46" rx="10" fill="#f8fafc" stroke="#0B1D3A"
+                            stroke-width="2" />
+                        <text x="380" y="445" text-anchor="middle" font-size="10.5" font-weight="800"
+                            fill="#0B1D3A">ENTREGADO Y REGISTRADO</text>
+                        <text x="380" y="459" text-anchor="middle" font-size="9.5" font-weight="600" fill="#334155">EN
+                            COMERCIO</text>
+
+                        <line x1="380" y1="471" x2="380" y2="523" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+                        <text x="470" y="500" text-anchor="middle" font-size="9" font-style="italic"
+                            font-weight="600">CIERRE DE RUTA DE TRANSPORTE</text>
+
+                        <!-- Estado 5 -->
+                        <rect x="260" y="525" width="240" height="46" rx="10" fill="#f8fafc" stroke="#0B1D3A"
+                            stroke-width="2" />
+                        <text x="380" y="545" text-anchor="middle" font-size="10.5" font-weight="800"
+                            fill="#0B1D3A">RUTA FINALIZADA Y</text>
+                        <text x="380" y="559" text-anchor="middle" font-size="9.5" font-weight="600"
+                            fill="#334155">RECURSOS RETORNADOS</text>
+
+                        <line x1="380" y1="571" x2="380" y2="602" stroke="#0f172a" stroke-width="1.5"
+                            marker-end="url(#arrDTE)" />
+
+                        <!-- Estado Final -->
+                        <circle cx="380" cy="622" r="16" fill="#ffffff" stroke="#0B1D3A" stroke-width="2" />
+                        <circle cx="380" cy="622" r="10" fill="#0B1D3A" />
+                    </svg>
+                </div>
+
+                <!-- Explicación Ejecutiva -->
+                <div class="lg:col-span-5 space-y-4 text-xs">
+                    <h4
+                        class="text-sm font-extrabold uppercase tracking-wider text-cbn-navy border-b border-slate-200 pb-2">
+                        Secuencia de Estados del Pedido Logístico
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="font-bold text-cbn-navy block">1. En Almacén Fiscal</span>
+                            <p class="text-slate-600 mt-0.5">El lote paletizado aguarda asignación de hoja de ruta y
+                                validación de liquidación ICE en SAP.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="font-bold text-cbn-navy block">2. En Tránsito (Monitoreo OTIF)</span>
+                            <p class="text-slate-600 mt-0.5">Desplazamiento de flota hacia supermercados y puntos de
+                                venta con rastreo GPS en tiempo real.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <span class="font-bold text-cbn-navy block">3. Descarga y Validación</span>
+                            <p class="text-slate-600 mt-0.5">Verificación física de cajas, emisión de factura
+                                electrónica y logística inversa de envases retornables.</p>
+                        </div>
+                        <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                            <span class="font-bold text-red-800 block"><i class="fa-solid fa-triangle-exclamation"></i>
+                                Ruta de Excepción: Devoluciones</span>
+                            <p class="text-red-700 mt-0.5">Ante rotura o rechazo en comercio, el lote transiciona a
+                                <em>Producto Rechazado/Dañado</em> y retorna al almacén central para ajuste de
+                                inventario.</p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <span class="font-bold text-emerald-900 block"><i class="fa-solid fa-circle-check"></i>
+                                Cierre de Ciclo</span>
+                            <p class="text-emerald-800 mt-0.5">Confirmación en plataforma B2B BEES y retorno de camión y
+                                envases vacíos al Centro de Distribución Directa (CDD).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-cbn-navy text-slate-300 py-8 px-4 border-t-4 border-cbn-gold mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <div>
+                <p class="font-bold text-white uppercase tracking-wider">Proyecto Académico • Análisis y Diseño de
+                    Sistemas</p>
+                <p class="text-slate-400 mt-1">Cervecería Boliviana Nacional S.A. (CBN) — Universidad Mayor de San
+                    Andrés (UMSA)</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="index.html" class="hover:text-cbn-gold transition">Inicio</a>
+                <span>•</span>
+                <a href="modulos.html" class="hover:text-cbn-gold transition">Módulos</a>
+                <span>•</span>
+                <a href="diagramas.html" class="text-cbn-gold font-bold">Diagramas</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT DE FILTRADO INTERACTIVO -->
+    <script>
+        function filtrarSeccion(filtro) {
+            const secciones = document.querySelectorAll('.seccion-diagrama');
+            const botones = document.querySelectorAll('.filtro-btn');
+
+            botones.forEach(btn => {
+                btn.classList.remove('bg-cbn-gold', 'text-cbn-navy', 'font-bold');
+                btn.classList.add('bg-white/10', 'text-white', 'font-semibold');
+            });
+
+            const activo = document.getElementById('btn-' + filtro);
+            activo.classList.remove('bg-white/10', 'text-white', 'font-semibold');
+            activo.classList.add('bg-cbn-gold', 'text-cbn-navy', 'font-bold');
+
+            secciones.forEach(sec => {
+                if (filtro === 'todos' || sec.id === 'sec-' + filtro) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
